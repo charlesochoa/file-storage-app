@@ -31,10 +31,9 @@ public class FileStorageService {
         }
     }
 
-    public String storeFile(MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public String storeFile(MultipartFile file, String filename) {
         try {
-            if(filename.contains("..")) {
+            if (filename.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + filename);
             }
             Path targetLocation = this.fileStorageLocation.resolve(filename);

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 @RestController
 @RequestMapping(path="/files")
@@ -28,7 +29,8 @@ public class FileController {
 
     @PostMapping("/upload")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = fileStorageService.storeFile(file);
+        String fileName = fileStorageService.storeFile(file,
+                (new Timestamp(System.currentTimeMillis())).getTime() + "_" + file.getOriginalFilename());
         logger.info("Received {} file", fileName);
         if (file.getSize() < 20971520) {
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
