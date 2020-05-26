@@ -29,6 +29,7 @@ public class FileController {
     @PostMapping("/upload")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
+        logger.info("Received {} file", fileName);
         if (file.getSize() < 20971520) {
             String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/files/download/")
